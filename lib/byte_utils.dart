@@ -11,26 +11,34 @@
 ///
 import 'dart:typed_data';
 
-import 'package:fixnum/fixnum.dart';
-
 class ByteUtils {
-  static Int64 bytes2long(final Uint8List byteArray, final int offset) {
+  static BigInt bytes2long(final Uint8List byteArray, final int offset) {
     // & 0xFF is useless
-    return ((Int64.fromInts(0, byteArray[offset] & 0xFF)) |
-        ((byteArray[offset + 1] & 0xFF) << 8) |
-        ((byteArray[offset + 2] & 0xFF) << 16) |
-        ((byteArray[offset + 3] & 0xFF) << 24) |
-        ((byteArray[offset + 4] & 0xFF) << 32) |
-        ((byteArray[offset + 5] & 0xFF) << 40) |
-        ((byteArray[offset + 6] & 0xFF) << 48) |
-        ((byteArray[offset + 7] & 0xFF) << 56));
+    return ((BigInt.from(byteArray[offset] & 0xFF)) |
+        BigInt.from(((byteArray[offset + 1] & 0xFF) << 8)) |
+        BigInt.from(((byteArray[offset + 2] & 0xFF)) << 16) |
+        BigInt.from(((byteArray[offset + 3] & 0xFF)) << 24) |
+        BigInt.from(((byteArray[offset + 4] & 0xFF)) << 32) |
+        BigInt.from(((byteArray[offset + 5] & 0xFF)) << 40) |
+        BigInt.from(((byteArray[offset + 6] & 0xFF)) << 48) |
+        BigInt.from(((byteArray[offset + 7] & 0xFF)) << 56));
   }
 
-  static Uint8List long2bytes(final Int64 longValue) {
-    return Uint8List.fromList(longValue.toBytes());
+  static Uint8List long2bytes(final BigInt longValue) =>
+      _bigIntToByteData(longValue).buffer.asUint8List();
+
+  static ByteData _bigIntToByteData(BigInt bigInt) {
+    final data = ByteData((bigInt.bitLength / 8).ceil());
+    var _bigInt = bigInt;
+    for (var i = 1; i <= data.lengthInBytes; i++) {
+      data.setUint8(data.lengthInBytes - i, _bigInt.toUnsigned(8).toInt());
+      _bigInt = _bigInt >> 8;
+    }
+    return data;
   }
 
-  static Int64 rotr64(final Int64 x, final int rot) {
-    return x.shiftRightUnsigned(rot) | x << (64 - rot);
+  static BigInt rotr64(final BigInt x, final int rot) {
+    //bug here
+    return x >> rot | x << (64 - rot);
   }
 }

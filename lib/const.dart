@@ -9,23 +9,30 @@
 /// PURPOSE.
 /// See the Mulan PSL v1 for more details.
 ///
-import 'package:fixnum/fixnum.dart';
 
 class Const {
-  static final Int64 f0 = Int64.fromInts(0xffffffff, 0xffffffff);
+  static final BigInt f0 = BigInt.from(-1);
 
   // Blake2b Initialization Vector:
   // Produced from the square root of primes 2, 3, 5, 7, 11, 13, 17, 19.
   // The same as SHA-512 IV.
-  static final List<Int64> blake2bIv = [
-    Int64.fromInts(0x6a09e667, 0xf3bcc908),
-    Int64.fromInts(0xbb67ae85, 0x84caa73b),
-    Int64.fromInts(0x3c6ef372, 0xfe94f82b),
-    Int64.fromInts(0xa54ff53a, 0x5f1d36f1),
-    Int64.fromInts(0x510e527f, 0xade682d1),
-    Int64.fromInts(0x9b05688c, 0x2b3e6c1f),
-    Int64.fromInts(0x1f83d9ab, 0xfb41bd6b),
-    Int64.fromInts(0x5be0cd19, 0x137e2179),
+  static final List<BigInt> blake2bIv = [
+    BigInt.parse("7640891576956012808"),
+    // Int64.fromInts(0x6a09e667, 0xf3bcc908),
+    BigInt.parse("-4942790177534073029"),
+    // Int64.fromInts(0xbb67ae85, 0x84caa73b),
+    BigInt.parse("4354685564936845355"),
+    // Int64.fromInts(0x3c6ef372, 0xfe94f82b),
+    BigInt.parse("-6534734903238641935"),
+    // Int64.fromInts(0xa54ff53a, 0x5f1d36f1),
+    BigInt.parse("5840696475078001361"),
+    // Int64.fromInts(0x510e527f, 0xade682d1),
+    BigInt.parse("-7276294671716946913"),
+    // Int64.fromInts(0x9b05688c, 0x2b3e6c1f),
+    BigInt.parse("2270897969802886507"),
+    // Int64.fromInts(0x1f83d9ab, 0xfb41bd6b),
+    BigInt.parse("6620516959819538809"),
+    // Int64.fromInts(0x5be0cd19, 0x137e2179),
   ];
 
   // Message word permutations:
